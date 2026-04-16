@@ -2,6 +2,9 @@
   "name": "fittracpro",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "20.x"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -13,7 +16,6 @@
     "@google/generative-ai": "^0.24.1",
     "@prisma/client": "^5.22.0",
     "bcryptjs": "^3.0.3",
-    "brain.js": "^2.0.0-beta.24",
     "clsx": "^2.1.1",
     "jose": "^6.2.2",
     "jsonwebtoken": "^9.0.3",
