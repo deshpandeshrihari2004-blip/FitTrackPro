@@ -1,0 +1,48 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String?
+  profile   Profile?
+  logs      DailyLog[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Profile {
+  id             String   @id @default(uuid())
+  userId         String   @unique
+  user           User     @relation(fields: [userId], references: [id])
+  gender         String?  // e.g. "Male", "Female", "Other"
+  age            Int
+  weight         Float    // in kg
+  height         Float?   // in cm
+  bodyFat        Float?   // percentage e.g., 15.5
+  goal           String   // e.g. "Weight Loss", "Muscle Gain", "Maintenance"
+  fitnessLevel   String   // e.g. "Beginner", "Intermediate", "Advanced"
+  dietType       String?  // e.g. "Veg", "Non-Veg", "Eggetarian"
+  dailyCalories  Int      // suggested by ML logic
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model DailyLog {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  dateKey   String   // format "YYYY-MM-DD"
+  type      String   // "Gym", "Rest", or "Skipped"
+  createdAt DateTime @default(now())
+
+  @@unique([userId, dateKey])
+}
